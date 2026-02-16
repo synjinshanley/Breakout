@@ -3,48 +3,63 @@
 #include <SDL3/SDL_main.h>
 #include "miniaudio.h"
 
+#pragma once
 
+
+// forward declarations
 class GameObject;
+struct Transform;
 
-class HitBox {
+
+class Component {
+    public:
+        GameObject* owner = nullptr;
+        
+        virtual ~Component() = default;
+        Component(GameObject* o) : owner(o) {}
+};
+
+
+class HitBox: public Component {
     private:
         float height;
         float width;
 
     public:
-        HitBox(float w, float h) 
+        HitBox(GameObject* owner, float w, float h) 
             : height(h), width(w) {}
 
         // getters
-        void get_width() const { return width; }
+        float get_width() const { return width; }
         float get_height() const { return height; }
 };
 
 
-class Sprite {
+class Sprite: public Component {
     private:
         SDL_Color c;
         float h;
         float w;
+
     public:
-        Sprite(SDL_Color color, float height, float width) 
+        Sprite(GameObject* owner, SDL_Color color, float height, float width)
             : c(color), h(height), w(width) {}
 
-        void draw(SDL_Renderer* renderer, Transform* t) {
-            SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
-            SDL_FRect rect{ t->x, t->y, w, h };
-            SDL_RenderFillRectF(renderer, &rect);
+        void draw(SDL_Renderer* renderer) {
+            SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a); // choose color
+            SDL_FRect rect{ owner->transform.x, owner->transform.y, w, h }; // create SDL_FRect
+            SDL_RenderFillRectF(renderer, &rect); // draw the SDL_FRect
         }
 };
 
 
-class Audio {
+class Audio: public Component {
     private:
         ma_sound sound;
         ma_engine* engine; // engine should be made in the game class and should be global
 
     public:
-        Audio(ma_engine* eng, const char* filepath)
+        Audio(GameObject* owner, ma_engine* eng, const char* filepath)
            : engine(eng) {
 
             if (ma_sound_init_from_file(engine, filepath, 0, nullptr, nullptr, &sound) != MA_SUCCESS) {
