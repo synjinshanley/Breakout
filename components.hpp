@@ -1,3 +1,6 @@
+#ifndef __HPP_COMPONENTS__
+#define __HPP_COMPONENTS__
+
 #include <vector>
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
@@ -24,14 +27,17 @@ class HitBox: public Component {
     private:
         float height;
         float width;
-
+        
     public:
         HitBox(GameObject* owner, float w, float h) 
             : height(h), width(w) {}
 
         // getters
-        float get_width() const { return width; }
         float get_height() const { return height; }
+        float get_width() const { return width; }
+        // setters
+        void set_height(float h) {height = h;}
+        void set_width(float w) {width = w;}
 };
 
 
@@ -75,3 +81,5 @@ class Audio: public Component {
             ma_sound_start(&sound);
         }
 };
+
+#endif
