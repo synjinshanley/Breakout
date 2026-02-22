@@ -14,7 +14,12 @@ Engine::Engine() { init(); }
 
 SDL_Renderer* Engine::getRenderer() { return this->renderer; };
 
-void Engine::setScene(Scene *scene) { this->scene = scene; }
+void Engine::setScene(Scene* newScene) {
+    if (this->scene != nullptr) {
+        delete this->scene;
+    }
+    this->scene = newScene;
+}
 void Engine::run() {
 	running = true;
     Uint64 frameStart = 0;
@@ -108,12 +113,10 @@ int main(int argc, char* argv[]) {
     // Create the objects that make up our game, and start the run.
     Engine& engine = Engine::instance();
 
-    Scene scene;
-    TitleScreen title("Welcome to Breakout!", 100, 100);
-    TitleScreen credits("This game is made by Synjin Shanley, Spencer Lincicum, and Jason Bos", 100, 200);
+    Scene* scene = new Scene();
+	TitleScreen* title = new TitleScreen();
 
-    scene.addObject(&title);
-    scene.addObject(&credits);
-    engine.setScene(&scene);
+	scene->addObject(title);
+	engine.setScene(scene);
     engine.run();
 }

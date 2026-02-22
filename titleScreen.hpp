@@ -6,12 +6,12 @@
 
 class TitleScreen : public GameObject {
 	public:
-		TitleScreen(char* message, int x, int y);
+		TitleScreen();
+		void Message(char* message, int x, int y);
 		void start();
 		void update(float deltaTime) override;
 	private:
 		SDL_FRect* rect;
-		float pps = 10.0;
 };
 
 

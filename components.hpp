@@ -49,3 +49,4 @@ class SpriteComponent : public Component {
 };
 
 #endif
+

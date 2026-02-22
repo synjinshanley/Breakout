@@ -4,11 +4,16 @@
 #include <SDL3/SDL.h>
 
 // Constructor
-TitleScreen::TitleScreen(char* message, int x, int y){
+TitleScreen::TitleScreen(){
+	TitleScreen::Message("Welcome to Breakout!", 100, 100);
+	TitleScreen::Message("This game is made by Synjin Shanley, Spencer Lincicum, and Jason Bos", 100, 200);
+	
+}
+
+void TitleScreen::Message(char* message, int x, int y) {
 	auto* spriteComponent = addComponent<SpriteComponent>();
 	spriteComponent->loadText(Engine::instance().getRenderer(), message, x ,y);
 	rect = spriteComponent->getRect();
-
 }
 
 // Called once per frame
@@ -23,6 +28,16 @@ void TitleScreen::update(float deltaTime) {
 }
 
 
-void TitleScreen::start(){
-	return;
+void TitleScreen::start() {
+    Engine& engine = Engine::instance();
+
+    // Create a new scene for the game
+    Scene* gameScene = new Scene();
+
+    // Add your game objects
+    //Game* game = new Game();
+    //gameScene->addObject();
+
+    // Switch scenes
+    engine.setScene(gameScene);
 }
