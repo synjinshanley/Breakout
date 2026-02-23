@@ -99,3 +99,4 @@ void SpriteComponent::update(float) {
 SDL_FRect* SpriteComponent::getRect(){
     return &destRect;
 }
+

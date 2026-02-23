@@ -54,9 +54,6 @@ class HitBox: public Component {
         float width;
         
     public:
-        HitBox(GameObject* owner, float w, float h) 
-            : height(h), width(w) {}
-
         // getters
         float get_height() const { return height; }
         float get_width() const { return width; }

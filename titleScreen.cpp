@@ -3,6 +3,8 @@
 #include "game_object.hpp"
 #include <SDL3/SDL.h>
 
+
+
 // Constructor
 TitleScreen::TitleScreen(){
 	TitleScreen::Message("Welcome to Breakout!", 100, 100);
@@ -27,16 +29,6 @@ void TitleScreen::update(float deltaTime) {
     }
 }
 
-Wall::Wall(float x, float y, float w, float h) {
-	auto* spriteComponent = addComponent<SpriteComponent>();
-	spriteComponent->createColorTexture(Engine::instance().getRenderer(), 0x808080FF, x, y, w, h);
-	rect = spriteComponent->getRect();
-}
-
-void Wall::update(float deltaTime) {
-	GameObject::update(deltaTime);
-}
-
 
 void TitleScreen::start() {
     Engine& engine = Engine::instance();
@@ -48,7 +40,7 @@ void TitleScreen::start() {
 	int windowHeight = 0;
 	SDL_GetWindowSize(engine.window, &windowWidth, &windowHeight);
 
-	// Add your game objects
+	// Add game objects
 	Wall* leftWall = new Wall(0, 0, windowWidth/10, windowHeight); // Left wall
 	Wall* rightWall = new Wall(windowWidth - windowWidth/10, 0, windowWidth/10, windowHeight); // Right wall
 	Wall* topWall = new Wall(0, 0, windowWidth, windowHeight/10); // Top wall
