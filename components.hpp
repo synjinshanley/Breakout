@@ -34,7 +34,7 @@ class SpriteComponent : public Component {
 		// Load an image from a file.  Normally we would
 		// probably have multiple images per sprite for
 		// animations.
-		bool loadSprite(SDL_Renderer* renderer, char* path);
+		void createColorTexture(SDL_Renderer* renderer, uint32_t color, float x, float y, float w, float h);
         bool loadText(SDL_Renderer* renderer, char* message, int x, int y);
 		SDL_Texture* getSprite();
 		void update(float deltaTime) override;
@@ -47,6 +47,24 @@ class SpriteComponent : public Component {
 		SDL_FRect destRect{};
 		SDL_Texture* sprite = nullptr;
 };
+
+class HitBox: public Component {
+    private:
+        float height;
+        float width;
+        
+    public:
+        HitBox(GameObject* owner, float w, float h) 
+            : height(h), width(w) {}
+
+        // getters
+        float get_height() const { return height; }
+        float get_width() const { return width; }
+        // setters
+        void set_height(float h) {height = h;}
+        void set_width(float w) {width = w;}
+};
+
 
 #endif
 

@@ -14,12 +14,7 @@ Engine::Engine() { init(); }
 
 SDL_Renderer* Engine::getRenderer() { return this->renderer; };
 
-void Engine::setScene(Scene* newScene) {
-    if (this->scene != nullptr) {
-        delete this->scene;
-    }
-    this->scene = newScene;
-}
+
 void Engine::run() {
 	running = true;
     Uint64 frameStart = 0;
@@ -62,10 +57,9 @@ void Engine::run() {
 				Engine::keyEvents.push_back(event);
 			}
 		}
-
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
-		scene->updateScene(targetFrameTime);
+		Engine::instance().update(targetFrameTime);
 		SDL_RenderPresent(renderer);
 		// Frame limiting
         Uint64 frameTime = SDL_GetTicks() - frameStart;

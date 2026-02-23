@@ -14,5 +14,13 @@ class TitleScreen : public GameObject {
 		SDL_FRect* rect;
 };
 
+class Wall: public GameObject {
+    public:
+        Wall(float x, float y, float w, float h);
+		void update(float deltaTime) override;
+	private:
+		SDL_FRect* rect;
+};
+
 
 #endif

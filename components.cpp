@@ -13,6 +13,7 @@ void Component::setOwner(GameObject* go) {
     owner = go;
 }
 
+
 void SpriteComponent::setX(int x) {
     destRect.x = x;
 }
@@ -21,25 +22,31 @@ void SpriteComponent::setY(int y) {
     destRect.y = y;
 }
 
-bool SpriteComponent::loadSprite(SDL_Renderer* renderer, char* path) {
-    // Hard coding this for my sample game that uses 64x64 sprites.
-    // You may need to adjust and/or have variable sizes.
-    destRect = {0, 0, 64, 64};
+void SpriteComponent::createColorTexture(SDL_Renderer* renderer, uint32_t color, float x, float y, float w, float h) {
     this->renderer = renderer;
-
-    // Surfaces are software based, so slow.  But, we need them
-    // when loading.
-    SDL_Surface* surface = IMG_Load(path);
+    // Create an SDL_Surface first
+    SDL_Surface* surface = SDL_CreateSurface(w, h, SDL_PIXELFORMAT_RGBA8888);
     if (!surface) {
-        SDL_Log("IMG_Load Error: %s", SDL_GetError());
-        return false;
+        SDL_Log("Failed to create surface: %s", SDL_GetError());
+        return;
     }
 
-    // Now create a hardware-based renderer and delete the software one.
-    sprite = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_DestroySurface(surface);
+    // Fill the surface with the color
+    SDL_FillSurfaceRect(surface, nullptr, color);
 
-    return sprite != nullptr;
+    destRect.x = x;
+    destRect.y = y;
+    destRect.w = w;
+    destRect.h = h;
+
+    // Create a texture from the surface
+    sprite = SDL_CreateTextureFromSurface(renderer, surface);
+    if (!sprite) {
+        SDL_Log("Failed to create texture from surface: %s", SDL_GetError());
+    }
+
+    // Free the surface since we no longer need it
+    SDL_DestroySurface(surface);
 }
 
 bool SpriteComponent::loadText(SDL_Renderer* renderer, char* message, int x, int y) {
@@ -83,8 +90,9 @@ SDL_Texture* SpriteComponent::getSprite() {
 }
 
 void SpriteComponent::update(float) {
-    SDL_RenderTexture(renderer, sprite, nullptr, &destRect);
-    
+    if (!SDL_RenderTexture(renderer, sprite, nullptr, &destRect)){
+        SDL_Log("RenderTexture failed: %s", SDL_GetError());
+    };
 }
 
 // The destRect is where and how much of the image will be drawn.

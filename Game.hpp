@@ -25,7 +25,6 @@ class Engine {
 		Engine& operator=(const Engine&) = delete;
 
 		SDL_Renderer* getRenderer();
-		void setScene(Scene* scene);
 		void run();
 
 		Engine();
@@ -35,13 +34,30 @@ class Engine {
 
 		void shutdown();
 
+		void setScene(Scene* scene) {
+        	nextScene = scene;  // don't switch immediately
+    	}
+
+		void update(float deltaTime) {
+			if (currentScene)
+				currentScene->updateScene(deltaTime);
+
+			// AFTER update loop finishes
+			if (nextScene != nullptr) {
+				delete currentScene;
+				currentScene = nextScene;
+				nextScene = nullptr;
+			}
+		}
+
 		SDL_Window* window;
 		SDL_Renderer* renderer;
 		bool running = false;
 		// Notice that we are storing copies of the
 		// events, not pointers or references.
 		static std::vector<SDL_Event> keyEvents;
-		Scene* scene;
+		Scene* currentScene = nullptr;
+    	Scene* nextScene = nullptr;
 
 };
 
