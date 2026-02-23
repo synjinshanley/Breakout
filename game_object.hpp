@@ -9,6 +9,11 @@
 
 #include "components.hpp"
 
+struct Transform {
+    float x = 0.5; // default value
+    float y = 0.5; // default value
+};
+
 // Everything is a game object.  Game objects hold components
 // that encapsulate behaviors.  PLEASE NOTICE THAT THIS CLASS
 // USES TEMPLATES FOR GENERIC METHODS.  You will need to have the
@@ -44,6 +49,7 @@ public:
   }
 
   virtual void update(float deltaTime);
+  Transform transform;
 
 private:
   std::vector<std::unique_ptr<Component>> components;
@@ -55,6 +61,14 @@ class Wall: public GameObject {
 		void update(float deltaTime) override;
 	private:
 		SDL_FRect* rect;
+};
+
+class Brick: public GameObject {
+    public:
+        Brick(float x, float y, float w, float h, uint32_t c);
+    void update(float deltaTime) override;
+    private:
+        SDL_FRect* rect;
 };
 
 #endif

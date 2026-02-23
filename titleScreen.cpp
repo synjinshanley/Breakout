@@ -44,6 +44,13 @@ void TitleScreen::start() {
 	Wall* leftWall = new Wall(0, 0, windowWidth/10, windowHeight); // Left wall
 	Wall* rightWall = new Wall(windowWidth - windowWidth/10, 0, windowWidth/10, windowHeight); // Right wall
 	Wall* topWall = new Wall(0, 0, windowWidth, windowHeight/10); // Top wall
+	std::vector<uint32_t> colors = {0xFF0000FF, 0x00FF00FF, 0x0000FFFF, 0xFFFF00FF, 0xFF00FFFF}; // Red, Green, Blue, Yellow, Magenta
+	for (int j = 0; j < 5; ++j) {
+		for (int i = 0; i < 16; ++i) {
+			Brick* brick = new Brick((windowWidth/10 + i * windowWidth/20) + 2, windowHeight/10 + (j+2) * windowHeight/30, windowWidth/21, windowHeight/31, colors[j]); // Red bricks
+			gameScene->addObject(brick);
+		}
+	}
     gameScene->addObject(leftWall);
     gameScene->addObject(rightWall);
     gameScene->addObject(topWall);
