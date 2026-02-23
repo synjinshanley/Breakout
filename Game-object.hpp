@@ -66,17 +66,33 @@ class Wall: public GameObject {
         }
 }
 
+
 class Bar: public GameObject {
+    private:
+
+
     public:
         Bar() {
             transform.x = 0.5;
-            transform.y = 0.1;
+            transform.y = 0.9;
             components.push_back(std::make_unique<HitBox>(this, 0.1, 0.05));
             components.push_back(std::make_unique<Sprite>(this,{255,255,0,0},0.1,0.05));
-            void left(float f);
-            void right(float f);
+            components.push_back(std::make_unique<Audio>(this, MA_ENG*, "bar.mp4");
         }
+
+        // still working on this
+        void update() {
+            for(auto it = Engine::keyEvents.begin(); it != Engine::keyEvents.end(); ++it){
+		        if(it->key.key == SDL_MouseMotionEvent) {
+                    it->key.key.xrel
+	            }
+            }
+
+
+        }
+
 }
+
 
 class Ball: public GameObject {
     private:
@@ -92,6 +108,34 @@ class Ball: public GameObject {
         }
 }
 
+
+class GameData: public GameObject {
+    private:
+        int lives = 3;
+        int score = 0;
+        int jason_contributions = 1;
+    
+        public:
+            void lose_life() {
+                lives--;
+                return;
+            }
+
+            void add_points(int q=1){
+                score += q;
+                return;
+            }
+
+            int get_score() {
+                return score;
+            }
+
+            int get_lives() {
+                return lives;
+            }
+
+    
+}
 
 
 #endif
