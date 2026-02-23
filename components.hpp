@@ -1,45 +1,40 @@
 #ifndef __HPP_COMPONENTS__
 #define __HPP_COMPONENTS__
 
-#include <vector>
-#include <SDL3/SDL.h>
-#include <SDL3/SDL_main.h>
-#include "miniaudio.h"
-
 #pragma once
 
+#include <SDL3/SDL.h>
+#include "miniaudio.h"
 
-// forward declarations
+
+// Forward declaration
 class GameObject;
-struct Transform;
-
 
 class Component {
-    public:
-        GameObject* owner = nullptr;
-        
-        virtual ~Component() = default;
-        Component(GameObject* o) : owner(o) {}
+public:
+    GameObject* owner = nullptr;
+
+    Component(GameObject* o);
+    virtual ~Component();
+
+    virtual void draw(SDL_Renderer* renderer);
+    virtual void play_sound();
 };
 
-
-class HitBox: public Component {
+class HitBox : public Component {
     private:
         float height;
         float width;
-        
+
     public:
-        HitBox(GameObject* owner, float w, float h) 
-            : height(h), width(w) {}
+        HitBox(GameObject* owner, float w, float h);
 
-        // getters
-        float get_height() const { return height; }
-        float get_width() const { return width; }
-        // setters
-        void set_height(float h) {height = h;}
-        void set_width(float w) {width = w;}
+        float get_height() const;
+        float get_width() const;
+
+        void set_height(float h);
+        void set_width(float w);
 };
-
 
 class Sprite: public Component {
     private:
@@ -48,14 +43,8 @@ class Sprite: public Component {
         float w;
 
     public:
-        Sprite(GameObject* owner, SDL_Color color, float height, float width)
-            : c(color), h(height), w(width) {}
-
-        void draw(SDL_Renderer* renderer) {
-            SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a); // choose color
-            SDL_FRect rect{ owner->transform.x, owner->transform.y, w, h }; // create SDL_FRect
-            SDL_RenderFillRectF(renderer, &rect); // draw the SDL_FRect
-        }
+        Sprite(GameObject* owner, SDL_Color color, float height, float width);
+        void draw(SDL_Renderer* renderer) override;
 };
 
 
@@ -65,21 +54,9 @@ class Audio: public Component {
         ma_engine* engine; // engine should be made in the game class and should be global
 
     public:
-        Audio(GameObject* owner, ma_engine* eng, const char* filepath)
-           : engine(eng) {
-
-            if (ma_sound_init_from_file(engine, filepath, 0, nullptr, nullptr, &sound) != MA_SUCCESS) {
-                printf("Failed to load audio: %s\n", filepath);
-            }
-        }
-
-        ~Audio() {
-            ma_sound_uninit(&sound);
-        }
-
-        void play_sound() {
-            ma_sound_start(&sound);
-        }
+        Audio(GameObject* owner, ma_engine* eng, const char* filepath);
+        ~Audio();
+        void play_sound() override;
 };
 
 #endif
