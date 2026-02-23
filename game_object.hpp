@@ -71,4 +71,15 @@ class Brick: public GameObject {
         SDL_FRect* rect;
 };
 
+class Ball: public GameObject {
+    private:
+      float velocity[2];
+      SDL_FRect* rect;
+    public:
+      Ball(float x, float y, float w, float h);
+      void update(float deltaTime) override;
+      void setVelocity(float vel[]);
+      float* getVelocity();
+};
+
 #endif
