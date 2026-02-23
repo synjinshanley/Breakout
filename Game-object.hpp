@@ -30,10 +30,16 @@ class GameObject {
 class Pit: public GameObject {
     public:
         Pit() {
-            Pit(float x, float y, float w, float h);
-            void update(float deltaTime)
+            transform.x = 0;
+            transform.y = 1;
+
+            components.push_back(std::make_unique<HitBox>(this, 1.0, 0.1));
+
+            // this line depends on what the ma_engine object is called
+            // it also depends on what the sound file is called
+            components.push_back(std::make_unique<Audio>(this, MA_ENG*, "pit.mp4")); 
         }
-};
+}
 
 
 class Brick: public GameObject {
@@ -49,6 +55,7 @@ class Brick: public GameObject {
             components.push_back(std::make_unique<Audio>(this, MA_ENG*, "brick.mp4")); 
         }
 }
+
 
 class Wall: public GameObject {
     public:
@@ -74,17 +81,22 @@ class Bar: public GameObject {
             components.push_back(std::make_unique<Audio>(this, MA_ENG*, "bar.mp4");
         }
 
-        // still working on this
-        void update() {
-            for(auto it = Engine::keyEvents.begin(); it != Engine::keyEvents.end(); ++it){
+
+        void update(float delta) {
+            for (auto it = Engine::keyEvents.begin(); it != Engine::keyEvents.end(); ++it) {
 		        if(it->key.key == SDL_MouseMotionEvent) {
-                    it->key.key.xrel
+
+                    int width, height;
+                    SDL_GetWindowSize(engine->window, &width, &height);
+                    float = xrel_norm = it->key.key.xrel / width;
+                    transform.x += xrel_norm;
 	            }
             }
-
-
+            
+            for (auto it = components.begin(); it != components.end(); ++it) {
+                it.draw();
+            }
         }
-
 }
 
 
