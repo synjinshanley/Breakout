@@ -63,37 +63,12 @@ class Wall: public GameObject {
 
 
 class Bar: public GameObject {
-    private:
-
-
     public:
         Bar() {
-            transform.x = 0.5;
-            transform.y = 0.9;
-            components.push_back(std::make_unique<HitBox>(this, 0.1, 0.05));
-            components.push_back(std::make_unique<Sprite>(this,{255,255,0,0},0.1,0.05));
-            components.push_back(std::make_unique<Audio>(this, MA_ENG*, "bar.mp4");
+            Bar(float x, float y, float w, float h);
+            void update(float deltaTime);
         }
-
-
-        void update(float delta) {
-            for (auto it = Engine::keyEvents.begin(); it != Engine::keyEvents.end(); ++it) {
-		        if(it->key.key == SDL_MouseMotionEvent) {
-
-                    int width, height;
-                    SDL_GetWindowSize(engine->window, &width, &height);
-                    float = xrel_norm = it->key.key.xrel / width;
-                    if(transform.x + xrel_norm > 0.1 && transform.x + xrel_norm < 0.9) {
-						transform.x += xrel_norm;
-					}
-	            }
-            }
-            
-            for (auto it = components.begin(); it != components.end(); ++it) {
-                it.draw();
-            }
-        }
-}
+};
 
 
 class Ball: public GameObject {
