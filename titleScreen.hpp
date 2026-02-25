@@ -10,6 +10,7 @@ class TitleScreen : public GameObject {
 		void Message(char* message, int x, int y);
 		void start();
 		void update(float deltaTime) override;
+		GameObjectType getType() const override { return GameObjectType::TitleScreen; }
 	private:
 		SDL_FRect* rect;
 };

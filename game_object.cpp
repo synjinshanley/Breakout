@@ -60,3 +60,12 @@ void Ball::update(float deltaTime) {
   rect->x = transform.x;
   rect->y = transform.y;
 }
+
+void Ball::setVelocity(float x, float y) {
+  velocity[0] = x;
+  velocity[1] = y;
+}
+
+float* Ball::getVelocity() {
+  return velocity;
+}

@@ -9,6 +9,13 @@
 
 #include "components.hpp"
 
+enum class GameObjectType {
+    Ball,
+    Wall,
+    Brick,
+    TitleScreen
+};
+
 struct Transform {
     float x = 0.5; // default value
     float y = 0.5; // default value
@@ -49,6 +56,7 @@ public:
   }
 
   virtual void update(float deltaTime);
+  virtual GameObjectType getType() const = 0;
   Transform transform;
 
 private:
@@ -58,7 +66,8 @@ private:
 class Wall: public GameObject {
     public:
         Wall(float x, float y, float w, float h);
-		void update(float deltaTime) override;
+		    void update(float deltaTime) override;
+		    GameObjectType getType() const override { return GameObjectType::Wall; }
 	private:
 		SDL_FRect* rect;
 };
@@ -66,7 +75,8 @@ class Wall: public GameObject {
 class Brick: public GameObject {
     public:
         Brick(float x, float y, float w, float h, uint32_t c);
-    void update(float deltaTime) override;
+        void update(float deltaTime) override;
+        GameObjectType getType() const override { return GameObjectType::Brick; }
     private:
         SDL_FRect* rect;
 };
@@ -78,8 +88,9 @@ class Ball: public GameObject {
     public:
       Ball(float x, float y, float w, float h);
       void update(float deltaTime) override;
-      void setVelocity(float vel[]);
+      void setVelocity(float x, float y);
       float* getVelocity();
+      GameObjectType getType() const override { return GameObjectType::Ball; }
 };
 
 #endif

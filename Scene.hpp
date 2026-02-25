@@ -15,12 +15,13 @@ class Scene {
 public:
   void addObject(GameObject *go) { game_objects.push_back(go); }
   void updateScene(float deltaTime) {
+    this->detectCollisions(deltaTime);
     for (auto it = game_objects.begin(); it != game_objects.end(); ++it) {
       (*it)->update(deltaTime);
     }
   }
-
-private:
+  void detectCollisions(float deltaTime);
+  const std::vector<GameObject*>& getObjects() const { return game_objects; }
   std::vector<GameObject *> game_objects;
 };
 
