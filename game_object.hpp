@@ -13,6 +13,7 @@ enum class GameObjectType {
     Ball,
     Wall,
     Brick,
+    Bar,
     TitleScreen
 };
 
@@ -92,6 +93,15 @@ class Ball: public GameObject {
       void setVelocity(float x, float y);
       float* getVelocity();
       GameObjectType getType() const override { return GameObjectType::Ball; }
+};
+
+class Bar: public GameObject {
+  private:
+    SDL_FRect* rect;
+  public:
+    Bar(float x, float y, float w, float h);
+    void update(float deltaTime);
+    GameObjectType getType() const override { return GameObjectType::Bar; }
 };
 
 #endif
