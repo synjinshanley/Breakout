@@ -89,7 +89,9 @@ class Bar: public GameObject {
                     int width, height;
                     SDL_GetWindowSize(engine->window, &width, &height);
                     float = xrel_norm = it->key.key.xrel / width;
-                    transform.x += xrel_norm;
+                    if(transform.x + xrel_norm > 0.1 && transform.x + xrel_norm < 0.9) {
+						transform.x += xrel_norm;
+					}
 	            }
             }
             
