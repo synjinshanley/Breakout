@@ -30,14 +30,8 @@ class GameObject {
 class Pit: public GameObject {
     public:
         Pit() {
-            transform.x = 0;
-            transform.y = 1;
-
-            components.push_back(std::make_unique<HitBox>(this, 1.0, 0.1));
-
-            // this line depends on what the ma_engine object is called
-            // it also depends on what the sound file is called
-            components.push_back(std::make_unique<Audio>(this, MA_ENG*, "pit.mp4")); 
+            Pit(float x, float y, float w, float h);
+            void update(float deltaTime); 
         }
 }
 
