@@ -48,6 +48,8 @@ void Brick::destroy() {
     // In a more complex implementation, you might want to handle this differently.
     rect->w = 0; // Make it invisible
     rect->h = 0; // Make it invisible
+    transform.x = 0.0; // Moves the hitbox out of the way
+    transform.y = 0.0; // Moves the hitbox out of the way
 }
 
 Ball::Ball(float x, float y, float w, float h) {
