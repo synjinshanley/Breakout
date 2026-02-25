@@ -1,4 +1,4 @@
-#include "scene.hpp"
+#include "Scene.hpp"
 #include "game_object.hpp"
 
 void Scene::detectCollisions(float deltaTime) {
@@ -6,12 +6,14 @@ void Scene::detectCollisions(float deltaTime) {
     if (game_objects[0]->getType() == GameObjectType::Ball) {
         for (size_t i = 1; i < game_objects.size(); ++i) {
             GameObject* obj = game_objects[i];
-            if (obj->getType() == GameObjectType::Wall || obj->getType() == GameObjectType::Brick) {
+            if (obj->getType() == GameObjectType::Wall || obj->getType() == GameObjectType::Brick || obj->getType() == GameObjectType::Bar) {
                 // Check for collision between the ball and the wall/brick
                 if(obj->getType() == GameObjectType::Brick){
                     obj = static_cast<Brick*>(game_objects[i]);
-                } else {
+                } else if(obj->getType() == GameObjectType::Bar){
                     obj = static_cast<Wall*>(game_objects[i]);
+                } else {
+                    obj = static_cast<Bar*>(game_objects[i]);
                 }
                 Ball* ball = static_cast<Ball*>(game_objects[0]);
                 HitBox* ballHitbox = ball->getComponent<HitBox>();
