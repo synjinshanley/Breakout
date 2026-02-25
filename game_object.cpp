@@ -40,6 +40,15 @@ void Brick::update(float deltaTime) {
 	GameObject::update(deltaTime);
 }
 
+void Brick::destroy() {
+    // Mark the brick as destroyed by setting its type to a special value
+    // or by removing it from the scene's game object list.
+    // For simplicity, we can just set its type to a special value here.
+    // In a more complex implementation, you might want to handle this differently.
+    rect->w = 0; // Make it invisible
+    rect->h = 0; // Make it invisible
+}
+
 Ball::Ball(float x, float y, float w, float h) {
   velocity[0] = 0.2f; // default x velocity
   velocity[1] = -0.2f; // default y velocity

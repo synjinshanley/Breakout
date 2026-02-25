@@ -45,16 +45,13 @@ void Scene::detectCollisions(float deltaTime) {
                         newVel[1] *= -1;
 
                     ball->setVelocity(newVel[0], newVel[1]);
-                }
 
                     // If it's a brick, remove it from the scene
-                    /*if (obj->getComponent<Brick>()) {
-                        auto it = std::find(game_objects.begin(), game_objects.end(), obj);
-                        if (it != game_objects.end()) {
-                            delete *it; // Free memory
-                            game_objects.erase(it); // Remove from vector
-                        }
-                    }*/
+                    if (obj->getType() == GameObjectType::Brick) {
+                        Brick* brick = static_cast<Brick*>(obj);
+                        brick->destroy();
+                    }
+                }
             }      
         }
     }

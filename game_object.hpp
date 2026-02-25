@@ -76,6 +76,7 @@ class Brick: public GameObject {
     public:
         Brick(float x, float y, float w, float h, uint32_t c);
         void update(float deltaTime) override;
+        void destroy();
         GameObjectType getType() const override { return GameObjectType::Brick; }
     private:
         SDL_FRect* rect;
