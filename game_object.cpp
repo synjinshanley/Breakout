@@ -1,6 +1,7 @@
 #include "game_object.hpp"
 #include "components.hpp"
-#include "game.hpp"
+#include "Game.hpp"
+#include <iostream>
 
 // Our component-based system needs to ensure
 // all components update each frame.
@@ -77,4 +78,32 @@ void Ball::setVelocity(float x, float y) {
 
 float* Ball::getVelocity() {
   return velocity;
+}
+
+Bar::Bar(float x, float y, float w, float h){
+    transform.x = x;
+    transform.y = y;
+    auto* hitBoxComponent = addComponent<HitBox>();
+    hitBoxComponent->set_width(w);
+    hitBoxComponent->set_height(h);
+    auto spriteComponent = addComponent<SpriteComponent>();
+    spriteComponent->createColorTexture(Engine::instance().getRenderer(), 0x00FFFFFF, x, y, w, h);
+    rect = spriteComponent->getRect();
+}
+
+void Bar::update(float deltaTime) {
+  GameObject::update(deltaTime);
+  Engine& engine = Engine::instance();
+  float mouseX, mouseY;
+  SDL_GetMouseState(&mouseX, &mouseY);
+  transform.x = static_cast<float>(mouseX);
+  //std::cout << transform.x;
+  int width, height;
+  SDL_GetWindowSize(engine.window, &width, &height);
+  if(transform.x < width/10){transform.x = width/10;}
+  if(transform.x > 9*width/10 - width/8){transform.x = 9*width/10 - width/8;}
+  rect->x = transform.x;
+  rect->y = transform.y;
+  
+  
 }
