@@ -21,3 +21,33 @@ Pit::Pit(float x, float y, float w, float h){
 void Pit::update(float deltatime){
     GameObject::update(deltatime);
 }
+
+Bar::Bar(float x, float y, float w, float h){
+    transform.x = x;
+    transform.y = y;
+    auto* hitBoxComponent = addComponent<HitBox>();
+    hitBoxComponent->setwidth(w);
+    hitBoxComponent->setheight(h);
+    auto spriteComponent = addComponent<SpriteComponent>();
+    spriteComponent->createColorTexture(Engine::instance().getRenderer(), 0x00FFFFFF, x, y, w, h);
+    rect = spriteComponent->getRect();
+}
+
+Bar::update(float deltaTime){
+    void update(float delta) {
+        for (auto it = Engine::keyEvents.begin(); it != Engine::keyEvents.end(); ++it) {
+		    if(it->key.key == SDL_MouseMotionEvent) {
+                int width, height;
+                SDL_GetWindowSize(engine->window, &width, &height);
+                float = xrel_norm = it->key.key.xrel / width;
+                if(transform.x + xrel_norm > 0.1 && transform.x + xrel_norm < 0.9) {
+					transform.x += xrel_norm;
+				}
+	        }
+        }
+            
+        // for (auto it = components.begin(); it != components.end(); ++it) {
+        //     it.draw();
+        // }
+    }
+}
