@@ -2,7 +2,7 @@
 #define			__HPP_GAME__
 
 #include <SDL3/SDL.h>
-#include "scene.hpp"
+#include "Scene.hpp"
 
 #define FPS 60
 #define MAX_EVENTS 128
