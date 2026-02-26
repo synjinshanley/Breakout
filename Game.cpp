@@ -3,7 +3,7 @@
 #include <random>
 
 #include "titleScreen.hpp"
-#include "game.hpp"
+#include "Game.hpp"
 #include "game_object.hpp"
 
 // Want to share these.  Easiest (and quick) way
