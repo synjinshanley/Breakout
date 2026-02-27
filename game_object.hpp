@@ -3,9 +3,12 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <algorithm>
 #include <vector>
 #include <memory>
+#include <iostream>
+#include <string>
 
 #include "components.hpp"
 
@@ -14,6 +17,8 @@ enum class GameObjectType {
     Wall,
     Brick,
     Bar,
+    Pit,
+    GameData,
     TitleScreen
 };
 
@@ -103,5 +108,36 @@ class Bar: public GameObject {
     void update(float deltaTime);
     GameObjectType getType() const override { return GameObjectType::Bar; }
 };
+
+class Pit: public GameObject {
+  public:
+    Pit(float x, float y, float w, float h);
+    void update(float deltaTime);
+    GameObjectType getType() const override { return GameObjectType::Pit; }
+};
+
+// class GameData: public GameObject {
+//   private:
+//     SDL_FRect* rect;
+//     //char* text;
+//     int lives;
+//     int score;
+//   public:
+//     GameData();
+//     int height;
+//     int width;
+//     SpriteComponent* spriteComponent;
+//     SDL_Renderer* engineRenderer;
+//     void lose_life();
+//     int get_score();
+//     void set_score(int s);
+//     TTF_Font* font;
+//     SDL_Surface* surface;
+//     std::string get_text();
+//     void update(float deltaTime);
+//     void update_score_text();
+//     GameObjectType getType() const override { return GameObjectType::GameData; }
+// };
+
 
 #endif
