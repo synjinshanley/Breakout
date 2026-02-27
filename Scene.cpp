@@ -1,17 +1,22 @@
-#include "scene.hpp"
+#include "Scene.hpp"
 #include "game_object.hpp"
+#include "Game.hpp"
 
 void Scene::detectCollisions(float deltaTime) {
     const std::vector<GameObject*>& game_objects = this->game_objects;
     if (game_objects[0]->getType() == GameObjectType::Ball) {
         for (size_t i = 1; i < game_objects.size(); ++i) {
             GameObject* obj = game_objects[i];
-            if (obj->getType() == GameObjectType::Wall || obj->getType() == GameObjectType::Brick) {
+            if (obj->getType() == GameObjectType::Wall || obj->getType() == GameObjectType::Brick || obj->getType() == GameObjectType::Bar || obj->getType() == GameObjectType::Pit) {
                 // Check for collision between the ball and the wall/brick
                 if(obj->getType() == GameObjectType::Brick){
                     obj = static_cast<Brick*>(game_objects[i]);
-                } else {
+                } else if(obj->getType() == GameObjectType::Wall){
                     obj = static_cast<Wall*>(game_objects[i]);
+                } else if(obj->getType() == GameObjectType::Bar){
+                    obj = static_cast<Bar*>(game_objects[i]);
+                } else if(obj->getType() == GameObjectType::Pit){
+                    obj = static_cast<Pit*>(game_objects[i]);
                 }
                 Ball* ball = static_cast<Ball*>(game_objects[0]);
                 HitBox* ballHitbox = ball->getComponent<HitBox>();
@@ -33,7 +38,7 @@ void Scene::detectCollisions(float deltaTime) {
                     ballBottom > objTop && ballTop < objBottom) {
 
                     SDL_Log("Collision detected");
-
+                    
                     float overlapX = std::min(ballRight, objRight) - std::max(ballLeft, objLeft);
                     float overlapY = std::min(ballBottom, objBottom) - std::max(ballTop, objTop);
 
@@ -50,6 +55,13 @@ void Scene::detectCollisions(float deltaTime) {
                     if (obj->getType() == GameObjectType::Brick) {
                         Brick* brick = static_cast<Brick*>(obj);
                         brick->destroy();
+                        // GameData* gameData = static_cast<GameData*>(obj);
+                        // SDL_Log("Worked up to here");
+                        // gameData->set_score(gameData->get_score() + 100);
+                    }
+                    if (obj->getType() == GameObjectType::Pit) {
+                        Engine& engine = Engine::instance();
+                        engine.shutdown();
                     }
                 }
             }      

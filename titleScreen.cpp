@@ -1,5 +1,5 @@
 #include "titleScreen.hpp"
-#include "game.hpp"
+#include "Game.hpp"
 #include "game_object.hpp"
 #include <SDL3/SDL.h>
 
@@ -45,6 +45,9 @@ void TitleScreen::start() {
 	Wall* rightWall = new Wall(windowWidth - windowWidth/10, 0, windowWidth/10, windowHeight); // Right wall
 	Wall* topWall = new Wall(0, 0, windowWidth, windowHeight/10); // Top wall
 	Ball* ball = new Ball(windowWidth/2, windowHeight/2, windowWidth/80, windowHeight/60); // Ball in the center
+	Bar* bar = new Bar(windowWidth/2, 9*windowHeight/10, windowWidth/8, windowHeight/60);
+	Pit* pit = new Pit(0, 98*windowHeight/100, windowWidth, windowHeight/60);
+	//GameData* gameData = new GameData();
 	gameScene->addObject(ball);
 	std::vector<uint32_t> colors = {0xFF0000FF, 0x00FF00FF, 0x0000FFFF, 0xFFFF00FF, 0xFF00FFFF}; // Red, Green, Blue, Yellow, Magenta
 	for (int j = 0; j < 5; ++j) {
@@ -56,6 +59,9 @@ void TitleScreen::start() {
     gameScene->addObject(leftWall);
     gameScene->addObject(rightWall);
     gameScene->addObject(topWall);
+	gameScene->addObject(bar);
+	gameScene->addObject(pit);
+	//gameScene->addObject(gameData);
 	//SDL_Log("Scene created with %d objects", gameScene->getObjects().size());
 
     // Switch scenes
