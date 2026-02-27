@@ -83,6 +83,48 @@ float* Ball::getVelocity() {
   return velocity;
 }
 
+GameData::GameData() {
+   Engine& engine = Engine::instance();
+   SDL_Renderer* engineRenderer = engine.getRenderer();
+   SDL_GetWindowSize(engine.window, &width, &height);
+   std::string text = "Score: " + std::to_string(score);
+
+    auto* spriteComponent = addComponent<SpriteComponent>();
+
+    spriteComponent->loadText(engineRenderer,
+                              const_cast<char*>(text.c_str()),
+                              width / 8,
+                              height / 20);
+
+    rect = spriteComponent->getRect();
+ }
+
+ void GameData::update_score(){
+   this->Add_Score(10);
+ }
+
+ void GameData::update_text(float height, float width) {
+    removeComponent<SpriteComponent>(); // Remove the old score text
+    Engine& engine = Engine::instance();
+    SDL_Renderer* engineRenderer = engine.getRenderer();
+
+    std::string text = "Score: " + std::to_string(score);
+
+    auto* spriteComponent = addComponent<SpriteComponent>();
+
+    spriteComponent->loadText(engineRenderer,
+                              const_cast<char*>(text.c_str()),
+                              width / 8,
+                              height / 20);
+
+    rect = spriteComponent->getRect();
+}
+
+ void GameData::update(float deltaTime){
+   update_score();
+   update_text(height, width);
+   GameObject::update(deltaTime);
+ }
 Bar::Bar(float x, float y, float w, float h){
   transform.x = x;
   transform.y = y;
@@ -123,53 +165,3 @@ Pit::Pit(float x, float y, float w, float h){
 void Pit::update(float deltaTime){
   GameObject::update(deltaTime);
 }
-
-// GameData::GameData(){
-//   //std::string text = "Score: 0"; // \nLives: 3
-//   int lives = 3;
-//   int score = 0;
-//   int width, height;
-//   TTF_Font* font = TTF_OpenFont("arial.ttf", 24);
-//   Engine& engine = Engine::instance();
-//   engineRenderer = engine.getRenderer();
-//   SDL_GetWindowSize(engine.window, &width, &height);
-//   spriteComponent = addComponent<SpriteComponent>();
-//   std::cout << typeid(spriteComponent).name();
-// 	spriteComponent->loadText(engineRenderer, "Score: 0", width/8, height/20);
-//   rect = spriteComponent->getRect();
-
-// }
-
-// void GameData::lose_life(){
-//   lives -= 1;
-// }
-
-// int GameData::get_score(){
-//   return score;
-// }
-
-// void GameData::set_score(int s){
-//   score = s;
-//   SDL_Log("Worked up to here2");
-//   update_score_text();
-// }
-
-// void GameData::update_score_text(){
-//   std::string t = "Score: " + std::to_string(score);
-//   SDL_Log("Worked up to here3");
-//   const char* t2 = t.c_str();
-//   char* text = const_cast<char*>(t2);
-//   SDL_Log("Worked up to here4");
-//   rect = spriteComponent->getRect();
-//   spriteComponent->loadText(engineRenderer, text, width/8, height/20);
-// }
-
-// void GameData::update(float deltaTime){
-//   GameObject::update(deltaTime);
-//   // std::string t = "Score: " + std::to_string(score) + "\nLives: " + std::to_string(lives);
-//   // const char* t2 = t.c_str();
-//   // text = const_cast<char*>(t2);
-//   // auto* spriteComponent = addComponent<SpriteComponent>();
-// 	// spriteComponent->loadText(Engine::instance().getRenderer(), text, 100, 200);
-//   // rect = spriteComponent->getRect();
-// }

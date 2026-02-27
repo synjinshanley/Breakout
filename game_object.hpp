@@ -61,6 +61,17 @@ public:
     return nullptr;
   }
 
+  template <typename T> T *removeComponent() {
+        components.erase(
+            std::remove_if(components.begin(), components.end(),
+                [](const std::unique_ptr<Component>& comp) {
+                    return dynamic_cast<T*>(comp.get()) != nullptr;
+                }),
+            components.end()
+        );
+        return nullptr;
+    }
+
   virtual void update(float deltaTime);
   virtual GameObjectType getType() const = 0;
   Transform transform;
@@ -100,6 +111,24 @@ class Ball: public GameObject {
       GameObjectType getType() const override { return GameObjectType::Ball; }
 };
 
+class GameData: public GameObject {
+    public:
+      GameData();
+      int score = 0;
+      int lives = 3;
+      int width;
+      int height;
+      void update(float deltaTime) override;
+      GameObjectType getType() const override { return GameObjectType::GameData; }
+      void Lose_Life() { lives--; }
+      void Add_Score(int points) { score += points; }
+      void update_score();
+      void update_text(float height, float width);
+    private:
+      SDL_FRect* rect;
+
+};
+
 class Bar: public GameObject {
   private:
     SDL_FRect* rect;
@@ -115,29 +144,5 @@ class Pit: public GameObject {
     void update(float deltaTime);
     GameObjectType getType() const override { return GameObjectType::Pit; }
 };
-
-// class GameData: public GameObject {
-//   private:
-//     SDL_FRect* rect;
-//     //char* text;
-//     int lives;
-//     int score;
-//   public:
-//     GameData();
-//     int height;
-//     int width;
-//     SpriteComponent* spriteComponent;
-//     SDL_Renderer* engineRenderer;
-//     void lose_life();
-//     int get_score();
-//     void set_score(int s);
-//     TTF_Font* font;
-//     SDL_Surface* surface;
-//     std::string get_text();
-//     void update(float deltaTime);
-//     void update_score_text();
-//     GameObjectType getType() const override { return GameObjectType::GameData; }
-// };
-
 
 #endif

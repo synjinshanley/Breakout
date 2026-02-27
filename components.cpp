@@ -100,3 +100,18 @@ SDL_FRect* SpriteComponent::getRect(){
     return &destRect;
 }
 
+/*Audio::Audio(GameObject* owner, ma_engine* eng, const char* filepath)
+    : Component(owner), engine(eng) {
+
+    if (ma_sound_init_from_file(engine, filepath, 0, nullptr, nullptr, &sound) != MA_SUCCESS) {
+        printf("Failed to load audio: %s\n", filepath);
+    }
+}
+
+Audio::~Audio() {
+    ma_sound_uninit(&sound);
+}
+
+void Audio::play_sound() {
+    ma_sound_start(&sound);
+}*/
