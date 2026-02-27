@@ -1,6 +1,8 @@
 #include "game_object.hpp"
 #include "components.hpp"
 #include "game.hpp"
+#include "game_data.hpp"
+#include <string>
 
 // Our component-based system needs to ensure
 // all components update each frame.
@@ -78,3 +80,46 @@ void Ball::setVelocity(float x, float y) {
 float* Ball::getVelocity() {
   return velocity;
 }
+
+GameData::GameData() {
+   Engine& engine = Engine::instance();
+   SDL_Renderer* engineRenderer = engine.getRenderer();
+   SDL_GetWindowSize(engine.window, &width, &height);
+   std::string text = "Score: " + std::to_string(score);
+
+    auto* spriteComponent = addComponent<SpriteComponent>();
+
+    spriteComponent->loadText(engineRenderer,
+                              const_cast<char*>(text.c_str()),
+                              width / 8,
+                              height / 20);
+
+    rect = spriteComponent->getRect();
+ }
+
+ void GameData::update_score(){
+   this->Add_Score(10);
+ }
+
+ void GameData::update_text(float height, float width) {
+    removeComponent<SpriteComponent>(); // Remove the old score text
+    Engine& engine = Engine::instance();
+    SDL_Renderer* engineRenderer = engine.getRenderer();
+
+    std::string text = "Score: " + std::to_string(score);
+
+    auto* spriteComponent = addComponent<SpriteComponent>();
+
+    spriteComponent->loadText(engineRenderer,
+                              const_cast<char*>(text.c_str()),
+                              width / 8,
+                              height / 20);
+
+    rect = spriteComponent->getRect();
+}
+
+ void GameData::update(float deltaTime){
+   update_score();
+   update_text(height, width);
+   GameObject::update(deltaTime);
+ }

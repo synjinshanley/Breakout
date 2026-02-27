@@ -62,6 +62,28 @@ class HitBox: public Component {
         void set_width(float w) {width = w;}
 };
 
+/*class Audio: public Component {
+    private:
+        ma_sound sound;
+        ma_engine* engine; // engine should be made in the game class and should be global
+
+    public:
+        Audio(ma_engine* eng, const char* filepath)
+           : engine(eng) {
+
+            if (ma_sound_init_from_file(engine, filepath, 0, nullptr, nullptr, &sound) != MA_SUCCESS) {
+                printf("Failed to load audio: %s\n", filepath);
+            }
+        }
+
+        ~Audio() {
+            ma_sound_uninit(&sound);
+        }
+
+        void play_sound() {
+            ma_sound_start(&sound);
+        }*/
+
 
 #endif
 

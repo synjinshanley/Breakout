@@ -13,6 +13,7 @@ enum class GameObjectType {
     Ball,
     Wall,
     Brick,
+    GameData,
     TitleScreen
 };
 
@@ -55,6 +56,17 @@ public:
     return nullptr;
   }
 
+  template <typename T> T *removeComponent() {
+        components.erase(
+            std::remove_if(components.begin(), components.end(),
+                [](const std::unique_ptr<Component>& comp) {
+                    return dynamic_cast<T*>(comp.get()) != nullptr;
+                }),
+            components.end()
+        );
+        return nullptr;
+    }
+
   virtual void update(float deltaTime);
   virtual GameObjectType getType() const = 0;
   Transform transform;
@@ -92,6 +104,24 @@ class Ball: public GameObject {
       void setVelocity(float x, float y);
       float* getVelocity();
       GameObjectType getType() const override { return GameObjectType::Ball; }
+};
+
+class GameData: public GameObject {
+    public:
+      GameData();
+      int score = 0;
+      int lives = 3;
+      int width;
+      int height;
+      void update(float deltaTime) override;
+      GameObjectType getType() const override { return GameObjectType::GameData; }
+      void Lose_Life() { lives--; }
+      void Add_Score(int points) { score += points; }
+      void update_score();
+      void update_text(float height, float width);
+    private:
+      SDL_FRect* rect;
+
 };
 
 #endif
