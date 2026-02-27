@@ -1,7 +1,7 @@
 #include "game_object.hpp"
 #include "components.hpp"
-#include "game.hpp"
-#include "game_data.hpp"
+#include "Game.hpp"
+#include <iostream>
 #include <string>
 
 // Our component-based system needs to ensure
@@ -49,6 +49,8 @@ void Brick::destroy() {
     // In a more complex implementation, you might want to handle this differently.
     rect->w = 0; // Make it invisible
     rect->h = 0; // Make it invisible
+    transform.x = 0.0; // Moves the hitbox out of the way
+    transform.y = 0.0; // Moves the hitbox out of the way
 }
 
 Ball::Ball(float x, float y, float w, float h) {
@@ -66,8 +68,8 @@ Ball::Ball(float x, float y, float w, float h) {
 
 void Ball::update(float deltaTime) {
 	GameObject::update(deltaTime);
-	transform.x += velocity[0] * deltaTime;
-	transform.y += velocity[1] * deltaTime;
+	transform.x += velocity[0] * deltaTime * 2;
+	transform.y += velocity[1] * deltaTime * 2;
   rect->x = transform.x;
   rect->y = transform.y;
 }
@@ -123,3 +125,43 @@ GameData::GameData() {
    update_text(height, width);
    GameObject::update(deltaTime);
  }
+Bar::Bar(float x, float y, float w, float h){
+  transform.x = x;
+  transform.y = y;
+  auto* hitBoxComponent = addComponent<HitBox>();
+  hitBoxComponent->set_width(w);
+  hitBoxComponent->set_height(h);
+  auto spriteComponent = addComponent<SpriteComponent>();
+  spriteComponent->createColorTexture(Engine::instance().getRenderer(), 0x00FFFFFF, x, y, w, h);
+  rect = spriteComponent->getRect();
+}
+
+void Bar::update(float deltaTime) {
+  GameObject::update(deltaTime);
+  Engine& engine = Engine::instance();
+  float mouseX, mouseY;
+  SDL_GetMouseState(&mouseX, &mouseY);
+  transform.x = static_cast<float>(mouseX);
+  //std::cout << transform.x;
+  int width, height;
+  SDL_GetWindowSize(engine.window, &width, &height);
+  if(transform.x < width/10){transform.x = width/10;}
+  if(transform.x > 9*width/10 - width/8){transform.x = 9*width/10 - width/8;}
+  rect->x = transform.x;
+  rect->y = transform.y;
+  
+  
+}
+
+Pit::Pit(float x, float y, float w, float h){
+    transform.x = x;
+    transform.y = y;
+    auto* hitBoxComponent = addComponent<HitBox>();
+    hitBoxComponent->set_width(w);
+    hitBoxComponent->set_height(h);
+    //components.push_back(std::make_unique<Audio>(this, MA_ENG*, "pit.mp4"));
+}
+
+void Pit::update(float deltaTime){
+  GameObject::update(deltaTime);
+}
