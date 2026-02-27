@@ -2,6 +2,7 @@
 #include "components.hpp"
 #include "Game.hpp"
 #include <iostream>
+#include <string>
 
 // Our component-based system needs to ensure
 // all components update each frame.
@@ -67,8 +68,8 @@ Ball::Ball(float x, float y, float w, float h) {
 
 void Ball::update(float deltaTime) {
 	GameObject::update(deltaTime);
-	transform.x += velocity[0] * deltaTime;
-	transform.y += velocity[1] * deltaTime;
+	transform.x += velocity[0] * deltaTime * 2;
+	transform.y += velocity[1] * deltaTime * 2;
   rect->x = transform.x;
   rect->y = transform.y;
 }
@@ -83,14 +84,14 @@ float* Ball::getVelocity() {
 }
 
 Bar::Bar(float x, float y, float w, float h){
-    transform.x = x;
-    transform.y = y;
-    auto* hitBoxComponent = addComponent<HitBox>();
-    hitBoxComponent->set_width(w);
-    hitBoxComponent->set_height(h);
-    auto spriteComponent = addComponent<SpriteComponent>();
-    spriteComponent->createColorTexture(Engine::instance().getRenderer(), 0x00FFFFFF, x, y, w, h);
-    rect = spriteComponent->getRect();
+  transform.x = x;
+  transform.y = y;
+  auto* hitBoxComponent = addComponent<HitBox>();
+  hitBoxComponent->set_width(w);
+  hitBoxComponent->set_height(h);
+  auto spriteComponent = addComponent<SpriteComponent>();
+  spriteComponent->createColorTexture(Engine::instance().getRenderer(), 0x00FFFFFF, x, y, w, h);
+  rect = spriteComponent->getRect();
 }
 
 void Bar::update(float deltaTime) {
@@ -108,6 +109,19 @@ void Bar::update(float deltaTime) {
   rect->y = transform.y;
   
   
+}
+
+Pit::Pit(float x, float y, float w, float h){
+    transform.x = x;
+    transform.y = y;
+    auto* hitBoxComponent = addComponent<HitBox>();
+    hitBoxComponent->set_width(w);
+    hitBoxComponent->set_height(h);
+    //components.push_back(std::make_unique<Audio>(this, MA_ENG*, "pit.mp4"));
+}
+
+void Pit::update(float deltaTime){
+  GameObject::update(deltaTime);
 }
 
 // GameData::GameData(){
