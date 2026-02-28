@@ -53,13 +53,13 @@ void TitleScreen::start() {
 	std::vector<uint32_t> colors = {0xFF0000FF, 0x00FF00FF, 0x0000FFFF, 0xFFFF00FF, 0xFF00FFFF}; // Red, Green, Blue, Yellow, Magenta
 	for (int j = 0; j < 5; ++j) {
 		for (int i = 0; i < 16; ++i) {
-			Brick* brick = new Brick((windowWidth/10 + i * windowWidth/20) + 2, windowHeight/10 + (j+2) * windowHeight/30, windowWidth/21, windowHeight/31, colors[j]); // Red bricks
+			Brick* brick = new Brick(windowWidth/10 + i * windowWidth/20 + 2, windowHeight/10 + (j+3) * windowHeight/30 + 2, windowWidth/20 - 4, windowHeight/30 - 4, colors[j]); // Red bricks
 			gameScene->addObject(brick);
 		}
 	}
-  gameScene->addObject(leftWall);
-  gameScene->addObject(rightWall);
-  gameScene->addObject(topWall);
+    gameScene->addObject(leftWall);
+    gameScene->addObject(rightWall);
+    gameScene->addObject(topWall);
 	gameScene->addObject(gameData);
 	gameScene->addObject(bar);
 	gameScene->addObject(pit);

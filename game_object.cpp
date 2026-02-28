@@ -55,7 +55,7 @@ void Brick::destroy() {
 
 Ball::Ball(float x, float y, float w, float h) {
   velocity[0] = 0.2f; // default x velocity
-  velocity[1] = -0.2f; // default y velocity
+  velocity[1] = 0.2f; // default y velocity
 	auto* spriteComponent = addComponent<SpriteComponent>();
   auto* hitbox = addComponent<HitBox>();
 	spriteComponent->createColorTexture(Engine::instance().getRenderer(), 0xFFFFFFFF, x, y, w, h);
@@ -87,7 +87,7 @@ GameData::GameData() {
    Engine& engine = Engine::instance();
    SDL_Renderer* engineRenderer = engine.getRenderer();
    SDL_GetWindowSize(engine.window, &width, &height);
-   std::string text = "Score: " + std::to_string(score);
+   std::string text = "Score: " + std::to_string(score) + " Lives: " + std::to_string(lives);
 
     auto* spriteComponent = addComponent<SpriteComponent>();
 
@@ -108,7 +108,7 @@ GameData::GameData() {
     Engine& engine = Engine::instance();
     SDL_Renderer* engineRenderer = engine.getRenderer();
 
-    std::string text = "Score: " + std::to_string(score);
+    std::string text = "Score: " + std::to_string(score) + " Lives: " + std::to_string(lives);
 
     auto* spriteComponent = addComponent<SpriteComponent>();
 
@@ -121,7 +121,6 @@ GameData::GameData() {
 }
 
  void GameData::update(float deltaTime){
-   update_score();
    update_text(height, width);
    GameObject::update(deltaTime);
  }
@@ -131,7 +130,7 @@ Bar::Bar(float x, float y, float w, float h){
   auto* hitBoxComponent = addComponent<HitBox>();
   hitBoxComponent->set_width(w);
   hitBoxComponent->set_height(h);
-  auto spriteComponent = addComponent<SpriteComponent>();
+  auto* spriteComponent = addComponent<SpriteComponent>();
   spriteComponent->createColorTexture(Engine::instance().getRenderer(), 0x00FFFFFF, x, y, w, h);
   rect = spriteComponent->getRect();
 }

@@ -1,6 +1,8 @@
 #include "Scene.hpp"
 #include "game_object.hpp"
 #include "Game.hpp"
+#include "components.hpp"
+#include "titleScreen.hpp"
 
 void Scene::detectCollisions(float deltaTime) {
     const std::vector<GameObject*>& game_objects = this->game_objects;
@@ -55,13 +57,55 @@ void Scene::detectCollisions(float deltaTime) {
                     if (obj->getType() == GameObjectType::Brick) {
                         Brick* brick = static_cast<Brick*>(obj);
                         brick->destroy();
-                        // GameData* gameData = static_cast<GameData*>(obj);
-                        // SDL_Log("Worked up to here");
-                        // gameData->set_score(gameData->get_score() + 100);
+                        float x = ball->getVelocity()[0];
+                        float y = ball->getVelocity()[1];
+                        if (y < 0.0f) {
+                            y *= (-1.0f);
+                        }
+                        if (y < 1.2f) { // Cap the speed increase to prevent it from getting too fast
+                            //SDL_Log("Increasing ball speed, current velocity: (%f, %f)", x, y);
+                            ball->setVelocity(ball->getVelocity()[0] * 1.05f, ball->getVelocity()[1] * 1.05f); // Increase speed by 10% after hitting a brick
+                        }
+                        for (size_t i = 1; i < game_objects.size(); ++i) {
+                            GameObject* obj = game_objects[i];
+                            if (obj->getType() == GameObjectType::GameData) {
+                                GameData* gameData = static_cast<GameData*>(obj);
+                                gameData->update_score();
+                            }
+                        }
                     }
+                    if (obj->getType() == GameObjectType::Bar) {
+                        Bar* bar = static_cast<Bar*>(obj);
+                        float barCenterX = bar->transform.x + bar->getComponent<HitBox>()->get_width() / 2;
+                        float ballCenterX = ball->transform.x + ballHitbox->get_width() / 2;
+                        float offset = (ballCenterX - barCenterX) / (bar->getComponent<HitBox>()->get_width() / 2);
+                        float newVelX = offset * 0.3f; // Adjust the horizontal velocity based on where the ball hits the bar
+                        ball->setVelocity(newVelX, ball->getVelocity()[1]);
+                    }
+
                     if (obj->getType() == GameObjectType::Pit) {
+                        SDL_Delay(500); // Pause for a moment to show the ball falling into the pit
                         Engine& engine = Engine::instance();
-                        engine.shutdown();
+                        int windowWidth = 0;
+                        int windowHeight = 0;
+                        SDL_GetWindowSize(engine.window, &windowWidth, &windowHeight);
+                        ball->transform.x = windowWidth / 2;
+                        ball->transform.y = windowHeight / 2;
+                        ball->setVelocity(0.2f, 0.2f);
+                        for (size_t i = 1; i < game_objects.size(); ++i) {
+                            GameObject* obj = game_objects[i];
+                            if (obj->getType() == GameObjectType::GameData) {
+                                GameData* gameData = static_cast<GameData*>(obj);
+                                gameData->lives -= 1;
+                                if(gameData->lives <= 0){
+                                    Scene* scene = new Scene();
+	                                TitleScreen* title = new TitleScreen();
+
+	                                scene->addObject(title);
+	                                engine.setScene(scene);
+                                }
+                            }
+                        }
                     }
                 }
             }      
