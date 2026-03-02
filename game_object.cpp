@@ -93,7 +93,7 @@ GameData::GameData() {
 
     spriteComponent->loadText(engineRenderer,
                               const_cast<char*>(text.c_str()),
-                              width / 8,
+                              width / 2,
                               height / 20);
 
     rect = spriteComponent->getRect();
@@ -111,19 +111,19 @@ GameData::GameData() {
     std::string text = "Score: " + std::to_string(score) + " Lives: " + std::to_string(lives);
 
     auto* spriteComponent = addComponent<SpriteComponent>();
-
     spriteComponent->loadText(engineRenderer,
                               const_cast<char*>(text.c_str()),
-                              width / 8,
+                              width / 2,
                               height / 20);
 
     rect = spriteComponent->getRect();
 }
 
  void GameData::update(float deltaTime){
-   update_text(height, width);
-   GameObject::update(deltaTime);
+  update_text(height, width);
+  GameObject::update(deltaTime);
  }
+
 Bar::Bar(float x, float y, float w, float h){
   transform.x = x;
   transform.y = y;
@@ -148,8 +148,6 @@ void Bar::update(float deltaTime) {
   if(transform.x > 9*width/10 - width/8){transform.x = 9*width/10 - width/8;}
   rect->x = transform.x;
   rect->y = transform.y;
-  
-  
 }
 
 Pit::Pit(float x, float y, float w, float h){

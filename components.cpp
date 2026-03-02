@@ -55,7 +55,7 @@ bool SpriteComponent::loadText(SDL_Renderer* renderer, char* message, int x, int
         SDL_Log("TTF init error: %s", SDL_GetError());
         return 1;
     }
-    TTF_Font *font = TTF_OpenFont("arial.ttf", 24);
+    TTF_Font *font = TTF_OpenFont("Pixellettersfull-BnJ5.ttf", 42);
     if (!font) {
         SDL_Log("Font load error: %s", SDL_GetError());
         return 1;
@@ -69,8 +69,8 @@ bool SpriteComponent::loadText(SDL_Renderer* renderer, char* message, int x, int
         return false;
     };
 
-    destRect.x = x;
-    destRect.y = y;
+    destRect.x = x - surface->w / 2; // Center the text horizontally
+    destRect.y = y - surface->h / 2; // Center the text vertically
     destRect.w = surface->w;
     destRect.h = surface->h;
 

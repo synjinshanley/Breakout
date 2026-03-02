@@ -7,8 +7,12 @@
 
 // Constructor
 TitleScreen::TitleScreen(){
-	TitleScreen::Message("Welcome to Breakout!", 100, 100);
-	TitleScreen::Message("This game is made by Synjin Shanley, Spencer Lincicum, and Jason Bos", 100, 200);
+	Engine& engine = Engine::instance();
+	int windowWidth = 0;
+	int windowHeight = 0;
+	SDL_GetWindowSize(engine.window, &windowWidth, &windowHeight);
+	TitleScreen::Message("Welcome to Breakout!", windowWidth/2, windowHeight/3);
+	TitleScreen::Message("This game is made by Synjin Shanley, Spencer Lincicum, and Jason Bos", windowWidth/2, windowHeight/2);
 	
 }
 
@@ -48,7 +52,6 @@ void TitleScreen::start() {
 	GameData* gameData = new GameData();
 	Bar* bar = new Bar(windowWidth/2, 9*windowHeight/10, windowWidth/8, windowHeight/60);
 	Pit* pit = new Pit(0, 98*windowHeight/100, windowWidth, windowHeight/60);
-	//GameData* gameData = new GameData();
 	gameScene->addObject(ball);
 	std::vector<uint32_t> colors = {0xFF0000FF, 0x00FF00FF, 0x0000FFFF, 0xFFFF00FF, 0xFF00FFFF}; // Red, Green, Blue, Yellow, Magenta
 	for (int j = 0; j < 5; ++j) {

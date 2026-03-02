@@ -64,7 +64,7 @@ void Scene::detectCollisions(float deltaTime) {
                         }
                         if (y < 1.2f) { // Cap the speed increase to prevent it from getting too fast
                             //SDL_Log("Increasing ball speed, current velocity: (%f, %f)", x, y);
-                            ball->setVelocity(ball->getVelocity()[0] * 1.05f, ball->getVelocity()[1] * 1.05f); // Increase speed by 10% after hitting a brick
+                            ball->setVelocity(ball->getVelocity()[0] * 1.05f, ball->getVelocity()[1] * 1.025f); // Increase speed by 10% after hitting a brick
                         }
                         for (size_t i = 1; i < game_objects.size(); ++i) {
                             GameObject* obj = game_objects[i];
@@ -76,6 +76,15 @@ void Scene::detectCollisions(float deltaTime) {
                     }
                     if (obj->getType() == GameObjectType::Bar) {
                         Bar* bar = static_cast<Bar*>(obj);
+                        float x = ball->getVelocity()[0];
+                        float y = ball->getVelocity()[1];
+                        if (y < 0.0f) {
+                            y *= (-1.0f);
+                        }
+                        if (y < 1.2f) { // Cap the speed increase to prevent it from getting too fast
+                            //SDL_Log("Increasing ball speed, current velocity: (%f, %f)", x, y);
+                            ball->setVelocity(ball->getVelocity()[0] * 1.05f, ball->getVelocity()[1] * 1.025f); // Increase speed by 10% after hitting a brick
+                        }
                         float barCenterX = bar->transform.x + bar->getComponent<HitBox>()->get_width() / 2;
                         float ballCenterX = ball->transform.x + ballHitbox->get_width() / 2;
                         float offset = (ballCenterX - barCenterX) / (bar->getComponent<HitBox>()->get_width() / 2);
