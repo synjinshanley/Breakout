@@ -44,6 +44,7 @@ void Scene::detectCollisions(float deltaTime) {
                     ballBottom > objTop && ballTop < objBottom) {
 
                     //SDL_Log("Collision detected");
+
                     float overlapX = std::min(ballRight, objRight) - std::max(ballLeft, objLeft);
                     float overlapY = std::min(ballBottom, objBottom) - std::max(ballTop, objTop);
 
@@ -123,6 +124,7 @@ void Scene::detectCollisions(float deltaTime) {
 	                                TitleScreen* title = new TitleScreen();
 
 	                                scene->addObject(title);
+                                    scene->addObject(gameData);
 	                                engine.setScene(scene);
                                 }
                             }

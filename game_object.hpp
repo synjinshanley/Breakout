@@ -120,7 +120,7 @@ class GameData: public GameObject {
     public:
       GameData();
       int score = 0;
-      int lives = 10;
+      int lives = 3;
       int width;
       int height;
       void update(float deltaTime) override;
