@@ -94,9 +94,14 @@ class Brick: public GameObject {
         Brick(float x, float y, float w, float h, uint32_t c);
         void update(float deltaTime) override;
         void destroy();
+        void create();
         GameObjectType getType() const override { return GameObjectType::Brick; }
     private:
         SDL_FRect* rect;
+        float pos_x;
+        float pos_y;
+        float width;
+        float height;
 };
 
 class Ball: public GameObject {
@@ -115,7 +120,7 @@ class GameData: public GameObject {
     public:
       GameData();
       int score = 0;
-      int lives = 3;
+      int lives = 10;
       int width;
       int height;
       void update(float deltaTime) override;

@@ -35,6 +35,10 @@ Brick::Brick(float x, float y, float w, float h, uint32_t c) {
   transform.y = y;
   hitbox->set_height(h);
   hitbox->set_width(w);
+  pos_x = x;
+  pos_y = y;
+  width = w;
+  height = h;
 	rect = spriteComponent->getRect();
 }
 
@@ -51,6 +55,13 @@ void Brick::destroy() {
     rect->h = 0; // Make it invisible
     transform.x = 0.0; // Moves the hitbox out of the way
     transform.y = 0.0; // Moves the hitbox out of the way
+}
+
+void Brick::create() {
+    rect->w = width;
+    rect->h = height;
+    transform.x = pos_x;
+    transform.y = pos_y;
 }
 
 Ball::Ball(float x, float y, float w, float h) {

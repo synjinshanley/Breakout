@@ -5,6 +5,10 @@
 #include "titleScreen.hpp"
 
 void Scene::detectCollisions(float deltaTime) {
+    Engine& engine = Engine::instance();
+    int windowWidth = 0;
+    int windowHeight = 0;
+    SDL_GetWindowSize(engine.window, &windowWidth, &windowHeight);
     const std::vector<GameObject*>& game_objects = this->game_objects;
     if (game_objects[0]->getType() == GameObjectType::Ball) {
         for (size_t i = 1; i < game_objects.size(); ++i) {
@@ -40,7 +44,6 @@ void Scene::detectCollisions(float deltaTime) {
                     ballBottom > objTop && ballTop < objBottom) {
 
                     //SDL_Log("Collision detected");
-
                     float overlapX = std::min(ballRight, objRight) - std::max(ballLeft, objLeft);
                     float overlapY = std::min(ballBottom, objBottom) - std::max(ballTop, objTop);
 
@@ -71,6 +74,19 @@ void Scene::detectCollisions(float deltaTime) {
                             if (obj->getType() == GameObjectType::GameData) {
                                 GameData* gameData = static_cast<GameData*>(obj);
                                 gameData->update_score();
+                                if (gameData->score % 800 == 0) { // recreate bricks every 800 points
+                                    for (size_t j = 1; j < game_objects.size(); ++j) {
+                                        GameObject* obj = game_objects[j];
+                                        if (obj->getType() == GameObjectType::Brick) {
+                                            Brick* brick = static_cast<Brick*>(obj);
+                                            brick->create();
+                                        }
+                                    }
+                                    ball->setVelocity(0.2f, 0.2f); // reset ball speed after recreating bricks
+                                    ball->transform.x = windowWidth / 2; // reset ball position
+                                    ball->transform.y = windowHeight / 2;
+                                    SDL_Delay(500); // Pause for a moment to show the new bricks before the ball starts moving again
+                                }
                             }
                         }
                     }
@@ -94,10 +110,6 @@ void Scene::detectCollisions(float deltaTime) {
 
                     if (obj->getType() == GameObjectType::Pit) {
                         SDL_Delay(500); // Pause for a moment to show the ball falling into the pit
-                        Engine& engine = Engine::instance();
-                        int windowWidth = 0;
-                        int windowHeight = 0;
-                        SDL_GetWindowSize(engine.window, &windowWidth, &windowHeight);
                         ball->transform.x = windowWidth / 2;
                         ball->transform.y = windowHeight / 2;
                         ball->setVelocity(0.2f, 0.2f);
