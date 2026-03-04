@@ -35,7 +35,7 @@ class SpriteComponent : public Component {
 		// probably have multiple images per sprite for
 		// animations.
 		void createColorTexture(SDL_Renderer* renderer, uint32_t color, float x, float y, float w, float h);
-        bool loadText(SDL_Renderer* renderer, char* message, int x, int y);
+        bool loadText(SDL_Renderer* renderer, const char* message, int x, int y);
 		SDL_Texture* getSprite();
 		void update(float deltaTime) override;
 		SDL_FRect* getRect();

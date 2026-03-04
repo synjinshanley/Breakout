@@ -1,8 +1,8 @@
+#include <SDL3/SDL.h>
+
 #include "titleScreen.hpp"
 #include "Game.hpp"
 #include "game_object.hpp"
-#include <SDL3/SDL.h>
-
 
 
 // Constructor
@@ -16,7 +16,7 @@ TitleScreen::TitleScreen(){
 	
 }
 
-void TitleScreen::Message(char* message, int x, int y) {
+void TitleScreen::Message(const char* message, int x, int y) {
 	auto* spriteComponent = addComponent<SpriteComponent>();
 	spriteComponent->loadText(Engine::instance().getRenderer(), message, x ,y);
 	rect = spriteComponent->getRect();

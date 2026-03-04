@@ -4,10 +4,6 @@
 #include <SDL3/SDL.h>
 #include "Scene.hpp"
 
-#define FPS 60
-#define MAX_EVENTS 128
-#define targetFrameTime 1000.0 / FPS
-
 class Scene;
 
 // Singleton pattern to ensure we only have one

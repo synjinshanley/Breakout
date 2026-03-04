@@ -49,9 +49,9 @@ void SpriteComponent::createColorTexture(SDL_Renderer* renderer, uint32_t color,
     SDL_DestroySurface(surface);
 }
 
-bool SpriteComponent::loadText(SDL_Renderer* renderer, char* message, int x, int y) {
+bool SpriteComponent::loadText(SDL_Renderer* renderer, const char* message, int x, int y) {
     this->renderer = renderer;
-    if (TTF_Init() < 0) {
+    if (TTF_Init() != true) {
         SDL_Log("TTF init error: %s", SDL_GetError());
         return 1;
     }
@@ -79,6 +79,7 @@ bool SpriteComponent::loadText(SDL_Renderer* renderer, char* message, int x, int
     SDL_Log("Texture creation failed: %s", SDL_GetError());
 }
     SDL_DestroySurface(surface);
+    TTF_CloseFont(font);
 
     return sprite != nullptr;
 

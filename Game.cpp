@@ -1,10 +1,11 @@
 #include <SDL3/SDL.h>
-#include <SDL3_image/SDL_image.h>
-#include <random>
 
 #include "titleScreen.hpp"
 #include "Game.hpp"
 #include "game_object.hpp"
+
+#define FPS 60
+#define targetFrameTime 1000.0 / FPS
 
 // Want to share these.  Easiest (and quick) way
 // is with a static data structure.
@@ -24,7 +25,7 @@ void Engine::run() {
         frameStart = SDL_GetTicks();
         frameCount++;
 
-        // FPS counter (check every second)
+        // FPS counter (print every second)
         if(frameStart - fpsLastTime >= 1000){
             float fps = frameCount / ((frameStart - fpsLastTime) / 1000.0f);
             SDL_Log("FPS: %.2f", fps);
@@ -35,16 +36,6 @@ void Engine::run() {
 		Engine::keyEvents.clear();
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
-            frameStart = SDL_GetTicks();
-            frameCount++;
-    
-            // FPS counter (check every second)
-            if(frameStart - fpsLastTime >= 1000){
-                float fps = frameCount / ((frameStart - fpsLastTime) / 1000.0f);
-                SDL_Log("FPS: %.2f", fps);
-                frameCount = 0;
-                fpsLastTime = frameStart;  // Only update here
-            }
 			if (event.type == SDL_EVENT_QUIT) {
 				SDL_Log("Shutting down...");
 				running = false;

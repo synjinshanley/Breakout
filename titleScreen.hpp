@@ -7,7 +7,7 @@
 class TitleScreen : public GameObject {
 	public:
 		TitleScreen();
-		void Message(char* message, int x, int y);
+		void Message(const char* message, int x, int y);
 		void start();
 		void update(float deltaTime) override;
 		GameObjectType getType() const override { return GameObjectType::TitleScreen; }

@@ -134,14 +134,14 @@ class Bar: public GameObject {
     SDL_FRect* rect;
   public:
     Bar(float x, float y, float w, float h);
-    void update(float deltaTime);
+    void update(float deltaTime) override;
     GameObjectType getType() const override { return GameObjectType::Bar; }
 };
 
 class Pit: public GameObject {
   public:
     Pit(float x, float y, float w, float h);
-    void update(float deltaTime);
+    void update(float deltaTime) override;
     GameObjectType getType() const override { return GameObjectType::Pit; }
 };
 
