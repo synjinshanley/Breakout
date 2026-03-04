@@ -2,6 +2,7 @@
 #define			__HPP_GAME__
 
 #include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include "Scene.hpp"
 
 class Scene;
@@ -55,6 +56,7 @@ class Engine {
 		Scene* currentScene = nullptr;
     	Scene* nextScene = nullptr;
 
+		TTF_Font* font;
 };
 
 #endif

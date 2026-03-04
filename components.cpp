@@ -1,5 +1,6 @@
 #include "components.hpp"
 #include "game_object.hpp"
+#include "Game.hpp"
 
 #include <SDL3_image/SDL_image.h>
 #include <SDL3/SDL.h>
@@ -51,16 +52,8 @@ void SpriteComponent::createColorTexture(SDL_Renderer* renderer, uint32_t color,
 
 bool SpriteComponent::loadText(SDL_Renderer* renderer, const char* message, int x, int y) {
     this->renderer = renderer;
-    if (TTF_Init() != true) {
-        SDL_Log("TTF init error: %s", SDL_GetError());
-        return 1;
-    }
-    TTF_Font *font = TTF_OpenFont("Pixellettersfull-BnJ5.ttf", 42);
-    if (!font) {
-        SDL_Log("Font load error: %s", SDL_GetError());
-        return 1;
-    }
-
+    Engine& engine = Engine::instance();
+    TTF_Font* font = engine.font;
     SDL_Color white = {255, 255, 255, 255};
 
     SDL_Surface* surface = TTF_RenderText_Blended(font, message, 0, white);
@@ -76,10 +69,9 @@ bool SpriteComponent::loadText(SDL_Renderer* renderer, const char* message, int 
 
     sprite = SDL_CreateTextureFromSurface(renderer, surface);
     if (!sprite) {
-    SDL_Log("Texture creation failed: %s", SDL_GetError());
-}
+        SDL_Log("Texture creation failed: %s", SDL_GetError());
+    }
     SDL_DestroySurface(surface);
-    TTF_CloseFont(font);
 
     return sprite != nullptr;
 

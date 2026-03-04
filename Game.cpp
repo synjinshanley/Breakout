@@ -1,4 +1,5 @@
 #include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 #include "titleScreen.hpp"
 #include "Game.hpp"
@@ -67,6 +68,18 @@ bool Engine::init() {
 		return false;
 	}
 
+	// TTF init
+	if (!TTF_Init()) {
+		SDL_Log("TTF init error: %s", SDL_GetError());
+		return false;
+	}
+	// load font into the Engine::font attribute
+	font = TTF_OpenFont("Pixellettersfull-BnJ5.ttf", 42);
+	if (!font) {
+        SDL_Log("Font load error: %s", SDL_GetError());
+        return 1;
+    }
+
 	// Gotta draw somewhere....
 	window = SDL_CreateWindow("Breakout", 800, 600, SDL_WINDOW_FULLSCREEN);
 
@@ -91,6 +104,8 @@ bool Engine::init() {
 void Engine::shutdown() {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
+	TTF_CloseFont(font);
+	TTF_Quit();
 	SDL_Quit();
 }
  
