@@ -13,6 +13,7 @@ TitleScreen::TitleScreen(){
 	SDL_GetWindowSize(engine.window, &windowWidth, &windowHeight);
 	TitleScreen::Message("Welcome to Breakout!", windowWidth/2, windowHeight/3);
 	TitleScreen::Message("This game is made by Synjin Shanley, Spencer Lincicum, and Jason Bos", windowWidth/2, windowHeight/2);
+	TitleScreen::Message("Press ENTER to start", windowWidth/2, 2*windowHeight/3);
 	
 }
 
